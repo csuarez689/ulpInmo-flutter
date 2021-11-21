@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:ulp_inmo/src/models/user_model.dart';
+import 'package:provider/provider.dart';
+import 'package:ulp_inmo/src/services/auth_service.dart';
 
 class UserDisplayInfo extends StatelessWidget {
-  final UserModel user;
   final Color color;
-  const UserDisplayInfo({Key? key, required this.user, required this.color}) : super(key: key);
+  const UserDisplayInfo({Key? key, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AuthService>(context).authUser;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        _InfoDisplay(value: user.nombre, title: 'Nombre'),
+        _InfoDisplay(value: user!.nombre, title: 'Nombre'),
         _InfoDisplay(value: user.phone, title: 'Teléfono'),
         _InfoDisplay(value: user.email, title: 'Correo Electrónico'),
       ],

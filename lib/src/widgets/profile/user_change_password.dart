@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/helpers/validators.dart';
-import 'package:ulp_inmo/src/models/user_model.dart';
+import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 
 class UserChangePassword extends StatefulWidget {
-  final UserModel user;
   final VoidCallback onCommit;
+  final String title;
+  final Color color;
 
-  const UserChangePassword({Key? key, required this.onCommit, required this.user}) : super(key: key);
+  const UserChangePassword({Key? key, required this.onCommit, required this.title, required this.color}) : super(key: key);
 
   @override
   State<UserChangePassword> createState() => _UserChangePasswordState();
@@ -27,12 +29,30 @@ class _UserChangePasswordState extends State<UserChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(
         key: formKey,
         child: Column(
           children: <Widget>[
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(onPressed: widget.onCommit, icon: Icon(Icons.chevron_left, color: widget.color, size: 35)),
+                  Text(widget.title,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xff14279B),
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 4,
+                          decorationColor: widget.color.withOpacity(.2))),
+                ],
+              ),
+            ),
             CustomTextFormField(
               title: "Nueva contraseña",
               inputController: passwordController,
@@ -41,10 +61,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
               hintText: 'Ingresa tu nueva contraseña',
               suffixIcon: IconButton(
                 splashRadius: 1.0,
-                icon: Icon(
-                  obscurePassword ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.pink,
-                ),
+                icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off, color: widget.color),
                 onPressed: () => setState(() => obscurePassword = !obscurePassword),
               ),
             ),

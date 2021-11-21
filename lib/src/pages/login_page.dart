@@ -30,17 +30,29 @@ class _LoginPageState extends State<LoginPage> {
             StainBg(),
             Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
+                margin: const EdgeInsets.only(bottom: 20, left: 40, right: 40),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(0xff14279B),
+                        ),
+                        child: const Icon(
+                          Icons.house_rounded,
+                          color: Colors.white,
+                          size: 80,
+                        ),
+                      ),
                       RichText(
                         textAlign: TextAlign.center,
-                        text: const TextSpan(
+                        text: TextSpan(
                           text: 'ULP',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w700,
                             color: Color(0xff14279B),
@@ -48,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             TextSpan(
                               text: 'Inmo',
-                              style: TextStyle(color: Colors.black, fontSize: 30),
+                              style: TextStyle(color: Colors.pink.withOpacity(.8), fontSize: 30),
                             ),
                           ],
                         ),

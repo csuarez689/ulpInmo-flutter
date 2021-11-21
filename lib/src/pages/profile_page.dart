@@ -10,7 +10,7 @@ import 'package:ulp_inmo/src/widgets/profile/user_edit_info.dart';
 
 class ProfilePage extends StatefulWidget {
   final BuildContext context;
-  ProfilePage(this.context);
+  const ProfilePage(this.context, {Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -30,39 +30,56 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AuthService>(context).authUser;
+
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          StainBg(),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SafeArea(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: const Text(
-                          "Mis Datos",
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
-                        ),
+      body: WillPopScope(
+        onWillPop: () async {
+          if (selectedIndex == 0) {
+            return true;
+          } else {
+            setState(() {
+              selectedIndex = 0;
+            });
+            return false;
+          }
+        },
+        child: Stack(
+          children: <Widget>[
+            StainBg(),
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Column(
+                  children: [
+                    SafeArea(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(top: 40),
+                            child: const Text(
+                              "Mis Datos",
+                              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
+                            ),
+                          ),
+                          _buildPopupMenu(),
+                        ],
                       ),
-                      _buildPopupMenu(),
-                    ],
-                  ),
+                    ),
+                    AvatarImage(
+                      bgColor: accentColor,
+                      imagePath: user!.photoUrl,
+                    ),
+                    const SizedBox(height: 80),
+                    _getChild(),
+                  ],
                 ),
-                AvatarImage(
-                  bgColor: accentColor,
-                  imagePath: user.photoUrl,
-                ),
-                const SizedBox(height: 80),
-                _getChild(),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -93,11 +110,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _getChild() {
     switch (selectedIndex) {
       case 1:
-        return UserEditInfo();
+        return UserEditInfo(onCommit: _goBack, title: "Editar Información", color: accentColor);
       case 2:
-        return UserChangePassword(user: user, onCommit: _goBack);
+        return UserChangePassword(title: "Cambiar Contraseña", onCommit: _goBack, color: accentColor);
       default:
-        return UserDisplayInfo(user: user, color: accentColor);
+        return UserDisplayInfo(color: accentColor);
     }
   }
 
