@@ -1,3 +1,3 @@
-# ulp_inmo
+# ULPInmo
 
-Flutter(^2.5) ULPInmo proyect for Optinal 1 - Software Developer, Universidad de la Punta.
+Flutter(^2.5) proyect for Optinal 1 - Software Developer, Universidad de la Punta.
