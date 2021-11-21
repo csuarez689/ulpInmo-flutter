@@ -4,9 +4,9 @@ import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/avatar_image.dart';
 import 'package:ulp_inmo/src/widgets/stain_bg.dart';
-import 'package:ulp_inmo/src/widgets/user_change_password.dart';
-import 'package:ulp_inmo/src/widgets/user_display_info.dart';
-import 'package:ulp_inmo/src/widgets/user_edit_info.dart';
+import 'package:ulp_inmo/src/widgets/profile/user_change_password.dart';
+import 'package:ulp_inmo/src/widgets/profile/user_display_info.dart';
+import 'package:ulp_inmo/src/widgets/profile/user_edit_info.dart';
 
 class ProfilePage extends StatefulWidget {
   final BuildContext context;
@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 40),
                         child: const Text(
-                          "Mi información",
+                          "Mis Datos",
                           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
                         ),
                       ),
@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
         icon: Icon(Icons.edit, color: accentColor, size: 22),
         padding: const EdgeInsets.all(0),
         itemBuilder: (context) => [
-          PopupMenuItem<int>(value: 2, child: Text("Cambiar contraseña", style: TextStyle(color: selectedIndex == 2 ? accentColor : Colors.black))),
+          PopupMenuItem<int>(value: 2, child: Text("Cambiar Contraseña", style: TextStyle(color: selectedIndex == 2 ? accentColor : Colors.black))),
           PopupMenuItem<int>(value: 1, child: Text("Editar Información", style: TextStyle(color: selectedIndex == 1 ? accentColor : Colors.black))),
           PopupMenuItem<int>(value: 0, child: Text("Mi Información", style: TextStyle(color: selectedIndex == 0 ? accentColor : Colors.black))),
         ],
@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
       case 1:
         return UserEditInfo();
       case 2:
-        return UserChangePassword(onCommit: _goBack);
+        return UserChangePassword(user: user, onCommit: _goBack);
       default:
         return UserDisplayInfo(user: user, color: accentColor);
     }
@@ -105,16 +105,3 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() => selectedIndex = 0);
   }
 }
-
-
-
-  // Refrshes the Page after updating user info.
-  // FutureOr onGoBack(dynamic value) {
-  //   setState(() {});
-  // }
-
-  // Handles navigation and prompts refresh.
-  // void navigateSecondPage(Widget editForm) {
-  //   Route route = MaterialPageRoute(builder: (context) => editForm);
-  //   Navigator.push(context, route).then(onGoBack);
-  // }

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ULP Inmobiliaria',
-        initialRoute: '/profile',
+        initialRoute: '/login',
         routes: {
           '/login': (_) => LoginPage(),
           '/profile': (BuildContext context) => ProfilePage(context),

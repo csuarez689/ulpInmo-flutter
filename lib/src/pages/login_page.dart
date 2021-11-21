@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/helpers/validators.dart';
 import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
+import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 
 class LoginPage extends StatefulWidget {
@@ -57,55 +58,26 @@ class _LoginPageState extends State<LoginPage> {
                         key: formKey,
                         child: Column(
                           children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  const Text("Correo Electrónico", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                                  const SizedBox(height: 10),
-                                  TextFormField(
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) => validateEmail(value),
-                                    obscureText: false,
-                                    onSaved: (val) => email = val!,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Ingresa tu correo electrónico',
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true,
-                                    ),
-                                  )
-                                ],
-                              ),
+                            CustomTextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              title: "Correo Electrónico",
+                              validator: validateEmail,
+                              hintText: 'Ingresa tu correo electrónico',
+                              onSaved: (val) => email = val!,
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  const Text("Contraseña", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                                  const SizedBox(height: 10),
-                                  TextFormField(
-                                    validator: (value) => validateBetween(value),
-                                    onSaved: (val) => password = val!,
-                                    obscureText: obscurePassword,
-                                    decoration: InputDecoration(
-                                      hintText: 'Ingresa tu contraseña',
-                                      border: InputBorder.none,
-                                      fillColor: const Color(0xfff3f3f4),
-                                      filled: true,
-                                      suffixIcon: IconButton(
-                                        splashRadius: 1.0,
-                                        icon: Icon(
-                                          obscurePassword ? Icons.visibility : Icons.visibility_off,
-                                          color: Colors.pink,
-                                        ),
-                                        onPressed: () => setState(() => obscurePassword = !obscurePassword),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                            CustomTextFormField(
+                              title: "Contraseña",
+                              validator: validateBetween,
+                              obscure: obscurePassword,
+                              hintText: 'Ingresa tu contraseña',
+                              onSaved: (val) => password = val!,
+                              suffixIcon: IconButton(
+                                splashRadius: 1.0,
+                                icon: Icon(
+                                  obscurePassword ? Icons.visibility : Icons.visibility_off,
+                                  color: Colors.pink,
+                                ),
+                                onPressed: () => setState(() => obscurePassword = !obscurePassword),
                               ),
                             ),
                           ],

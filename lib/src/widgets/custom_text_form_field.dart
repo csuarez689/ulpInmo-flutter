@@ -10,14 +10,22 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText = '',
     this.prefixIcon,
     this.suffixIcon,
+    this.keyboardType,
+    this.onSaved,
+    this.initialValue,
+    required this.title,
   }) : super(key: key);
 
   TextEditingController? inputController;
   Function? validator;
+  Function(String?)? onSaved;
   bool obscure;
   String hintText;
   Widget? suffixIcon;
   Widget? prefixIcon;
+  TextInputType? keyboardType;
+  String title;
+  String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +34,12 @@ class CustomTextFormField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text("Nueva contraseña", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
           const SizedBox(height: 10),
           TextFormField(
+            initialValue: initialValue,
+            onSaved: onSaved,
+            keyboardType: keyboardType,
             controller: inputController,
             validator: (value) => validator != null ? validator!(value) : null,
             obscureText: obscure,
