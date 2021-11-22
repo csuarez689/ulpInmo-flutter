@@ -12,7 +12,7 @@ class UserModel {
 
   String get photoUrl => "https://ui-avatars.com/api/?color=14279B&name=$nombre&rounded=true&size=128";
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json, String token) {
     nombre = json['nombre'];
     email = json['email'];
     telefono = json['telefono'];
