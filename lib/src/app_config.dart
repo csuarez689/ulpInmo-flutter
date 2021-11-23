@@ -9,6 +9,8 @@ _configStatusBar() {
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.black,
     statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.dark,
+    systemStatusBarContrastEnforced: true,
   )); //)  ));
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -21,8 +23,11 @@ initApp(Widget app) async {
   _configStatusBar();
   final _httpService = HttpService('http://practicastuds.ulp.edu.ar/api', {'Content-Type': "application/json; charser=UTF-8"});
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => AuthService(_httpService),
+  runApp(MultiProvider(
+    providers: [
+      Provider<HttpService>.value(value: _httpService),
+      Provider<AuthService>(create: (context) => AuthService(_httpService)),
+    ],
     child: app,
   ));
 }

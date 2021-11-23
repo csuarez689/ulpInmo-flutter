@@ -39,7 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondary),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondary, size: 30),
         actions: [
           _buildPopupMenu(),
         ],
@@ -74,7 +74,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(height: 20),
                     AvatarImage(imagePath: user!.photoUrl),
                     const SizedBox(height: 60),
-                    _getChild(),
+                    AnimatedSwitcher(
+                      child: _getChild(),
+                      duration: const Duration(milliseconds: 300),
+                      switchInCurve: Curves.easeIn,
+                      switchOutCurve: Curves.easeOut,
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return SlideTransition(
+                          position: Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(animation),
+                          child: child,
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
