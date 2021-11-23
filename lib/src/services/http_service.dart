@@ -3,18 +3,23 @@ import 'package:http/http.dart';
 
 import 'package:ulp_inmo/src/services/http_result.dart';
 
-enum HttpMethod { get, post, put }
+enum HttpMethod { get, post, put, patch, delete }
 
 typedef Parser<T> = T Function(dynamic data);
 
-class Http {
+class HttpService {
   final String baseUrl;
+  final Map<String, String> _globalHeaders;
 
-  Http({this.baseUrl = ''});
+  HttpService(this.baseUrl, this._globalHeaders);
+
+  Map<String, String> get globalHeaders => _globalHeaders;
+
+  addHeaders(Map<String, String> headers) => _globalHeaders.addAll(headers);
 
   dynamic _encodeBody(dynamic body) {
     try {
-      jsonEncode(body);
+      return jsonEncode(body);
     } catch (_) {
       return body;
     }
@@ -22,7 +27,7 @@ class Http {
 
   dynamic _decodeBody(String body) {
     try {
-      jsonDecode(body);
+      return jsonDecode(body);
     } catch (_) {
       return body;
     }
@@ -39,7 +44,7 @@ class Http {
     int? statusCode;
     dynamic data;
     try {
-      Uri url = (path.startsWith('http://') || path.startsWith('https://')) ? Uri.parse(path) : Uri.parse('$baseUrl$path');
+      Uri url = Uri.parse('$baseUrl$path');
       final response = await sendRequest(url: url, method: method, headers: headers, body: body, timeout: timeout);
       data = _decodeBody(response.body);
       statusCode = response.statusCode;
@@ -48,10 +53,12 @@ class Http {
       }
       return HttpResult<T>(data: parser == null ? data : parser(data), statusCode: statusCode, error: null);
     } catch (e, s) {
+      print(e);
+      print(s);
       if (e is HttpError) {
         return HttpResult<T>(data: null, statusCode: statusCode!, error: e);
       }
-      return HttpResult<T>(data: null, statusCode: -1, error: HttpError(data: data, exception: e, stackTrace: s));
+      return HttpResult<T>(data: null, statusCode: statusCode ?? -1, error: HttpError(data: data, exception: e, stackTrace: s));
     }
   }
 
@@ -62,13 +69,9 @@ class Http {
     required dynamic body,
     required Duration timeout,
   }) {
-    var finalHeaders = {...headers};
+    var finalHeaders = {..._globalHeaders, ...headers};
     if (method != HttpMethod.get) {
-      final contentType = finalHeaders['Content-Type'];
-      if (contentType == null || contentType.contains('application/json')) {
-        finalHeaders['Content-Type'] = "application/json; charser=UTF-8";
-        body = _encodeBody(body);
-      }
+      body = _encodeBody(body);
     }
     final client = Client();
     switch (method) {
@@ -78,6 +81,10 @@ class Http {
         return client.post(url, headers: finalHeaders, body: body).timeout(timeout);
       case HttpMethod.put:
         return client.put(url, headers: finalHeaders, body: body).timeout(timeout);
+      case HttpMethod.patch:
+        return client.patch(url, headers: finalHeaders, body: body).timeout(timeout);
+      case HttpMethod.delete:
+        return client.delete(url, headers: finalHeaders, body: body).timeout(timeout);
     }
   }
 }

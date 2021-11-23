@@ -3,13 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/helpers/validators.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
+import 'package:ulp_inmo/src/widgets/loader_button.dart';
+import 'package:ulp_inmo/src/helpers/snackbar_notifications.dart';
 
 class UserChangePassword extends StatefulWidget {
-  final VoidCallback onCommit;
   final String title;
   final Color color;
 
-  const UserChangePassword({Key? key, required this.onCommit, required this.title, required this.color}) : super(key: key);
+  const UserChangePassword({Key? key, required this.title, required this.color}) : super(key: key);
 
   @override
   State<UserChangePassword> createState() => _UserChangePasswordState();
@@ -21,6 +22,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   bool obscurePassword = true;
   bool obscurePasswordConfimation = true;
   String passwordConfimation = '';
+  bool loading = false;
   @override
   void dispose() {
     passwordController.dispose();
@@ -41,7 +43,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  IconButton(onPressed: widget.onCommit, icon: Icon(Icons.chevron_left, color: widget.color, size: 35)),
+                  IconButton(onPressed: () => Navigator.maybePop(context), icon: Icon(Icons.chevron_left, color: widget.color, size: 35)),
                   Text(widget.title,
                       style: TextStyle(
                           fontSize: 20,
@@ -81,18 +83,21 @@ class _UserChangePasswordState extends State<UserChangePassword> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: const Color(0xff14279B),
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  textStyle: const TextStyle(fontSize: 20, color: Colors.white),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  minimumSize: const Size.fromHeight(50)),
+            LoaderButton(
+              loading: loading,
               child: const Text('Guardar'),
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  widget.onCommit();
+                  setState(() => loading = true);
+                  final res = await authService.updateProfile(authService.authUser!, passwordController.text);
+                  if (res != null)
+                    showSnackbarError(context, res);
+                  else {
+                    Navigator.maybePop(context);
+                    showSnackbar(context, 'Contraseña actualizada');
+                  }
+                  setState(() => loading = false);
                 }
               },
             ),

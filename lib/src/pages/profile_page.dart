@@ -38,9 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if (selectedIndex == 0) {
             return true;
           } else {
-            setState(() {
-              selectedIndex = 0;
-            });
+            setState(() => selectedIndex = 0);
             return false;
           }
         },
@@ -49,30 +47,28 @@ class _ProfilePageState extends State<ProfilePage> {
             StainBg(),
             SingleChildScrollView(
               child: Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 child: Column(
                   children: [
                     SafeArea(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(top: 40),
-                            child: const Text(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
                               "Mis Datos",
                               style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
                             ),
-                          ),
-                          _buildPopupMenu(),
-                        ],
+                            _buildPopupMenu(),
+                          ],
+                        ),
                       ),
                     ),
-                    AvatarImage(
-                      bgColor: accentColor,
-                      imagePath: user!.photoUrl,
-                    ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 40),
+                    AvatarImage(imagePath: user!.photoUrl),
+                    const SizedBox(height: 60),
                     _getChild(),
                   ],
                 ),
@@ -110,15 +106,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _getChild() {
     switch (selectedIndex) {
       case 1:
-        return UserEditInfo(onCommit: _goBack, title: "Editar Información", color: accentColor);
+        return UserEditInfo(title: "Editar Información", color: accentColor);
       case 2:
-        return UserChangePassword(title: "Cambiar Contraseña", onCommit: _goBack, color: accentColor);
+        return UserChangePassword(title: "Cambiar Contraseña", color: accentColor);
       default:
         return UserDisplayInfo(color: accentColor);
     }
-  }
-
-  void _goBack() {
-    setState(() => selectedIndex = 0);
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/helpers/validators.dart';
-import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
+import 'package:ulp_inmo/src/widgets/loader_button.dart';
+import 'package:ulp_inmo/src/helpers/snackbar_notifications.dart';
 import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,7 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   bool obscurePassword = true;
   String email = '';
   String password = '';
-  late final authProvider = Provider.of<AuthService>(context, listen: false);
+  late final authService = Provider.of<AuthService>(context, listen: false);
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +40,14 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(0xff14279B),
-                        ),
-                        child: const Icon(
-                          Icons.house_rounded,
-                          color: Colors.white,
-                          size: 80,
-                        ),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: const Color(0xff14279B)),
+                        child: const Icon(Icons.house_rounded, color: Colors.white, size: 80),
                       ),
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           text: 'ULP',
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff14279B),
-                          ),
+                          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
                           children: [
                             TextSpan(
                               text: 'Inmo',
@@ -71,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: <Widget>[
                             CustomTextFormField(
+                              initialValue: 'csuarez689@gmail.com',
                               keyboardType: TextInputType.emailAddress,
                               title: "Correo Electrónico",
                               validator: validateEmail,
@@ -78,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                               onSaved: (val) => email = val!,
                             ),
                             CustomTextFormField(
+                              initialValue: '12345',
                               title: "Contraseña",
                               validator: validateBetween,
                               obscure: obscurePassword,
@@ -96,21 +89,19 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: const Color(0xff14279B),
-                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            textStyle: const TextStyle(fontSize: 20, color: Colors.white),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            minimumSize: const Size.fromHeight(50)),
+                      LoaderButton(
+                        loading: loading,
                         child: const Text('Ingresar'),
-                        onPressed: () {
+                        onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
-                            authProvider.authUser =
-                                UserModel(id: 7, grupoId: 1, nombre: "Claudio Suarez", phone: "2664774140", email: "cssuarez689@gmail.com", password: "1234");
-
-                            Navigator.pushReplacementNamed(context, '/profile');
+                            setState(() => loading = true);
+                            final res = await authService.login(email, password);
+                            if (res != null)
+                              showSnackbarError(context, res);
+                            else
+                              Navigator.pushReplacementNamed(context, '/profile');
+                            setState(() => loading = false);
                           }
                         },
                       ),
@@ -123,9 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                             textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, decoration: TextDecoration.underline),
                           ),
                           child: const Text('¿ Olvidaste tu contraseña ?'),
-                          onPressed: () {
-                            print('olvidaste');
-                          },
+                          onPressed: () {},
                         ),
                       ),
                     ],

@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/helpers/validators.dart';
+import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
+import 'package:ulp_inmo/src/widgets/loader_button.dart';
+import 'package:ulp_inmo/src/helpers/snackbar_notifications.dart';
 
-class UserEditInfo extends StatelessWidget {
-  final VoidCallback onCommit;
-  final formKey = GlobalKey<FormState>();
+class UserEditInfo extends StatefulWidget {
   final Color color;
   final String title;
 
-  UserEditInfo({Key? key, required this.onCommit, required this.color, required this.title}) : super(key: key);
+  const UserEditInfo({Key? key, required this.color, required this.title}) : super(key: key);
+
+  @override
+  State<UserEditInfo> createState() => _UserEditInfoState();
+}
+
+class _UserEditInfoState extends State<UserEditInfo> {
+  final formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthService>(context, listen: false).authUser;
+    final authService = Provider.of<AuthService>(context, listen: false);
+    UserModel user = UserModel.fromJson(authService.authUser!.toJson());
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -27,15 +37,15 @@ class UserEditInfo extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  IconButton(onPressed: onCommit, icon: Icon(Icons.chevron_left, color: color, size: 35)),
-                  Text(title,
+                  IconButton(onPressed: () => Navigator.maybePop(context), icon: Icon(Icons.chevron_left, color: widget.color, size: 35)),
+                  Text(widget.title,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xff14279B),
                           decoration: TextDecoration.underline,
                           decorationThickness: 4,
-                          decorationColor: color.withOpacity(.2))),
+                          decorationColor: widget.color.withOpacity(.2))),
                 ],
               ),
             ),
@@ -43,38 +53,41 @@ class UserEditInfo extends StatelessWidget {
               title: "Nombre",
               validator: (value) => validateBetween(value, 5, 30),
               hintText: 'Ingresa tu nombre',
-              onSaved: (val) => user?.nombre = val!,
-              initialValue: user?.nombre,
+              onSaved: (val) => user.nombre = val!,
+              initialValue: user.nombre,
             ),
             CustomTextFormField(
               title: "Teléfono",
               validator: (value) => validateBetween(value, 9, 15),
               hintText: 'Ingresa tu telefono',
               keyboardType: TextInputType.phone,
-              onSaved: (val) => user?.phone = val!,
-              initialValue: user?.phone,
+              onSaved: (val) => user.telefono = val!,
+              initialValue: user.telefono,
             ),
             CustomTextFormField(
               title: "Correo Electrónico",
               validator: validateEmail,
               hintText: 'Ingresa tu correo electrónico',
               keyboardType: TextInputType.emailAddress,
-              onSaved: (val) => user?.email = val!,
-              initialValue: user?.email,
+              onSaved: (val) => user.email = val!,
+              initialValue: user.email,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: const Color(0xff14279B),
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  textStyle: const TextStyle(fontSize: 20, color: Colors.white),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  minimumSize: const Size.fromHeight(50)),
+            LoaderButton(
+              loading: loading,
               child: const Text('Guardar'),
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  onCommit();
+                  setState(() => loading = true);
+                  final res = await authService.updateProfile(user, null);
+                  if (res != null)
+                    showSnackbarError(context, res);
+                  else {
+                    Navigator.maybePop(context);
+                    showSnackbar(context, 'Perfil actualizado');
+                  }
+                  setState(() => loading = false);
                 }
               },
             ),

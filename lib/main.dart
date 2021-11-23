@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:ulp_inmo/src/app_config.dart';
 import 'package:ulp_inmo/src/pages/login_page.dart';
 import 'package:ulp_inmo/src/pages/profile_page.dart';
-import 'package:ulp_inmo/src/services/auth_service.dart';
+import 'package:ulp_inmo/src/widgets/navigation_drawer_widget.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.black,
-    statusBarIconBrightness: Brightness.dark,
-  )); //)  ));
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  runApp(MyApp());
+  initApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AuthService(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'ULP Inmobiliaria',
-        initialRoute: '/login',
-        routes: {
-          '/login': (_) => LoginPage(),
-          '/profile': (BuildContext context) => ProfilePage(context),
-        },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: getAppTheme(),
+      title: 'ULP Inmobiliaria',
+      // initialRoute: '/login',
+      home: Scaffold(
+        extendBodyBehindAppBar: true,
+        drawer: const NavigationDrawerWidget(),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Color(0xffed1b42)),
+        ),
+        body: ProfilePage(context),
       ),
+      // initialRoute: '/login',
+      // routes: {
+      //   '/login': (_) => LoginPage(),
+      //   '/profile': (BuildContext context) => ProfilePage(context),
+      // },
     );
   }
 }

@@ -15,7 +15,7 @@ class UserDisplayInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _InfoDisplay(value: user!.nombre, title: 'Nombre'),
-        _InfoDisplay(value: user.phone, title: 'Teléfono'),
+        _InfoDisplay(value: user.telefono, title: 'Teléfono'),
         _InfoDisplay(value: user.email, title: 'Correo Electrónico'),
       ],
     );

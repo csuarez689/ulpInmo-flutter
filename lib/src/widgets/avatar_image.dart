@@ -6,34 +6,34 @@ import 'package:flutter/material.dart';
 class AvatarImage extends StatelessWidget {
   final String imagePath;
   final IconButton? childButton;
-  final Color bgColor;
+  final double radius;
   // Constructor
-  const AvatarImage({Key? key, required this.imagePath, this.childButton, required this.bgColor}) : super(key: key);
+  const AvatarImage({Key? key, required this.imagePath, this.childButton, this.radius = 70}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Stack(
-        children: [buildImage(bgColor), if (childButton != null) Positioned(child: buildCircle(), right: 4, top: 10)],
+        children: [_buildImage(context, radius), if (childButton != null) Positioned(child: _buildCircle(), right: 4, top: 10)],
       ),
     );
   }
 
   // Builds Profile Image
-  Widget buildImage(Color color) {
+  Widget _buildImage(BuildContext context, double radius) {
     return CircleAvatar(
-      radius: 70,
-      backgroundColor: color,
+      radius: radius,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       child: CachedNetworkImage(
-          // placeholder: (_, __) => Image.asset('assets/imgs/pink-white-loader.gif'),
-          placeholder: (_, __) => const CircularProgressIndicator(color: Colors.white),
-          imageUrl: imagePath,
-          errorWidget: (_, __, ___) => const Icon(Icons.error, color: Colors.white, size: 30)),
+        placeholder: (_, __) => const CircularProgressIndicator(color: Colors.white),
+        imageUrl: imagePath,
+        errorWidget: (_, __, ___) => const Icon(Icons.image_outlined, color: Colors.white, size: 70),
+      ),
     );
   }
 
   // Builds/Makes Circle for Edit Icon on Profile Picture
-  Widget buildCircle() {
+  Widget _buildCircle() {
     return ClipOval(
       child: Container(
         padding: const EdgeInsets.all(8),
