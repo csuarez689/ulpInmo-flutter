@@ -50,23 +50,7 @@ class _ClipPainter extends CustomClipper<Path> {
     final fthControlPoint = Offset(width * .95, height * .615);
     final fthEndPoint = Offset(width, height * .64);
     path.quadraticBezierTo(fthControlPoint.dx, fthControlPoint.dy, fthEndPoint.dx, fthEndPoint.dy);
-    // path.lineTo(width, 0);
 
-    // /// [Top Left corner]
-    // var secondControlPoint = const Offset(0, 0);
-    // var secondEndPoint = Offset(width * .2, height * .3);
-
-    // /// [Left Middle]
-    // var fifthControlPoint = Offset(width * .3, height * .5);
-    // var fiftEndPoint = Offset(width * .23, height * .6);
-    // path.quadraticBezierTo(fifthControlPoint.dx, fifthControlPoint.dy, fiftEndPoint.dx, fiftEndPoint.dy);
-
-    // /// [Bottom Left corner]
-    // var thirdControlPoint = Offset(0, height);
-    // var thirdEndPoint = Offset(width, height);
-    // path.quadraticBezierTo(thirdControlPoint.dx, thirdControlPoint.dy, thirdEndPoint.dx, thirdEndPoint.dy);
-
-    // path.lineTo(0, height);
     path.lineTo(width, 0);
     path.close();
 
