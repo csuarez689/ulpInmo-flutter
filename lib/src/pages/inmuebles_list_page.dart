@@ -5,6 +5,13 @@ class InmueblesListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Inmuebles'),
+      ),
+      body: Center(
+        child: Text('Inmuebles'),
+      ),
+    );
   }
 }

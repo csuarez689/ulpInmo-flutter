@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: const NavigationDrawerWidget(),
+      drawer: const NavigationDrawerWidget(1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
