@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:ulp_inmo/src/pages/inmuebles_add_page.dart';
+import 'package:ulp_inmo/src/pages/inmuebles_detail_page.dart';
+import 'package:ulp_inmo/src/pages/inmuebles_edit_page.dart';
+import 'package:ulp_inmo/src/pages/inmuebles_list_page.dart';
+import 'package:ulp_inmo/src/pages/login_page.dart';
+import 'package:ulp_inmo/src/pages/profile_page.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/services/http_service.dart';
+import 'package:ulp_inmo/src/services/inmueble_services.dart';
 
 _configStatusBar() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -25,8 +32,8 @@ initApp(Widget app) async {
 
   runApp(MultiProvider(
     providers: [
-      Provider<HttpService>.value(value: _httpService),
       ChangeNotifierProvider<AuthService>(create: (context) => AuthService(_httpService)),
+      Provider<InmuebleService>(create: (context) => InmuebleService(_httpService)),
     ],
     child: app,
   ));
@@ -41,3 +48,12 @@ ThemeData getAppTheme() => ThemeData.light().copyWith(
       secondary: Colors.pink.withOpacity(.9),
       secondaryVariant: const Color(0xffac4180),
     ));
+
+Map<String, Widget Function(BuildContext)> getRoutes() => {
+      '/login': (_) => LoginPage(),
+      '/profile': (context) => ProfilePage(context),
+      '/inmuebles': (context) => InmueblesListPage(),
+      '/inmuebles/edit': (context) => InmueblesEditPage(),
+      '/inmuebles/detail': (context) => InmueblesDetailPage(),
+      '/inmuebles/add': (context) => InmueblesAddPage(),
+    };

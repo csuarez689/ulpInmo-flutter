@@ -4,13 +4,13 @@ class InmuebleModel {
     required this.superficie,
     required this.latitud,
     required this.longitud,
-    required this.id,
+    this.id = 0,
   });
   late final String direccion;
-  late final int superficie;
-  late final int latitud;
-  late final int longitud;
-  late final int id;
+  late final double superficie;
+  late final double latitud;
+  late final double longitud;
+  late final int? id;
 
   InmuebleModel.fromJson(Map<String, dynamic> json) {
     direccion = json['direccion'];

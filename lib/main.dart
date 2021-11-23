@@ -21,10 +21,7 @@ class _MyAppState extends State<MyApp> {
       theme: getAppTheme(),
       title: 'ULP Inmobiliaria',
       initialRoute: '/login',
-      routes: {
-        '/login': (_) => LoginPage(),
-        '/profile': (BuildContext context) => ProfilePage(context),
-      },
+      routes: getRoutes(),
     );
   }
 }

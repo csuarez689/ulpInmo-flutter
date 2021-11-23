@@ -14,11 +14,11 @@ class StainBg extends StatelessWidget {
         width: width,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
+            begin: Alignment.topRight,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xffE6E6E6),
               Color(0xff14279B),
+              Color(0xffE6E6E6),
             ],
           ),
         ),
@@ -34,7 +34,7 @@ class _ClipPainter extends CustomClipper<Path> {
     var width = size.width;
     var path = Path();
 
-    path.lineTo(0, height * .1);
+    path.lineTo(0, height * .11);
     final fstControlPoint = Offset(width * .02, height * .18);
     final fstEndPoint = Offset(width * .2, height * .12);
     path.quadraticBezierTo(fstControlPoint.dx, fstControlPoint.dy, fstEndPoint.dx, fstControlPoint.dy);

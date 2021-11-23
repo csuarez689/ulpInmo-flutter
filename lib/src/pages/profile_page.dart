@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/avatar_image.dart';
-import 'package:ulp_inmo/src/widgets/navigation_drawer_widget.dart';
-import 'package:ulp_inmo/src/widgets/stain_bg.dart';
+import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_change_password.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_display_info.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_edit_info.dart';
@@ -33,18 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final user = Provider.of<AuthService>(context).authUser;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      drawer: const NavigationDrawerWidget(1),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondary, size: 30),
-        actions: [
-          _buildPopupMenu(),
-        ],
+    return MainScaffold(
+      navIndex: 1,
+      navActions: [_buildPopupMenu()],
+      title: const Text(
+        "Mis Datos",
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
       ),
-      body: WillPopScope(
+      child: WillPopScope(
         onWillPop: () async {
           if (selectedIndex == 0) {
             return true;
@@ -53,44 +48,28 @@ class _ProfilePageState extends State<ProfilePage> {
             return false;
           }
         },
-        child: Stack(
-          children: <Widget>[
-            StainBg(),
-            SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: [
-                    SafeArea(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        alignment: Alignment.centerLeft,
-                        child: const Text(
-                          "Mis Datos",
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    AvatarImage(imagePath: user!.photoUrl),
-                    const SizedBox(height: 60),
-                    AnimatedSwitcher(
-                      child: _getChild(),
-                      duration: const Duration(milliseconds: 300),
-                      switchInCurve: Curves.easeIn,
-                      switchOutCurve: Curves.easeOut,
-                      transitionBuilder: (Widget child, Animation<double> animation) {
-                        return SlideTransition(
-                          position: Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(animation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              children: [
+                SafeArea(child: Container(margin: const EdgeInsets.only(top: 30), child: AvatarImage(imagePath: user!.photoUrl))),
+                const SizedBox(height: 60),
+                AnimatedSwitcher(
+                  child: _getChild(),
+                  duration: const Duration(milliseconds: 300),
+                  switchInCurve: Curves.easeIn,
+                  switchOutCurve: Curves.easeOut,
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return SlideTransition(
+                      position: Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(animation),
+                      child: child,
+                    );
+                  },
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
