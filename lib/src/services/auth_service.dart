@@ -3,7 +3,7 @@ import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/http_service.dart';
 
 class AuthService with ChangeNotifier {
-  UserModel? _authUser = UserModel(nombre: 'Claudio Suarez', email: 'csuarez689@gmail.com', telefono: '2664774140', id: 7, grupoId: 1);
+  UserModel? _authUser;
   final HttpService _http;
 
   AuthService(this._http);

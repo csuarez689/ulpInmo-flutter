@@ -26,7 +26,7 @@ initApp(Widget app) async {
   runApp(MultiProvider(
     providers: [
       Provider<HttpService>.value(value: _httpService),
-      Provider<AuthService>(create: (context) => AuthService(_httpService)),
+      ChangeNotifierProvider<AuthService>(create: (context) => AuthService(_httpService)),
     ],
     child: app,
   ));
