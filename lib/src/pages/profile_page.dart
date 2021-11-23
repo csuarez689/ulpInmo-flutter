@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/avatar_image.dart';
+import 'package:ulp_inmo/src/widgets/navigation_drawer_widget.dart';
 import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_change_password.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_display_info.dart';
@@ -33,6 +34,16 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = Provider.of<AuthService>(context).authUser;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      drawer: const NavigationDrawerWidget(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondary),
+        actions: [
+          _buildPopupMenu(),
+        ],
+      ),
       body: WillPopScope(
         onWillPop: () async {
           if (selectedIndex == 0) {
@@ -53,20 +64,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     SafeArea(
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Mis Datos",
-                              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
-                            ),
-                            _buildPopupMenu(),
-                          ],
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          "Mis Datos",
+                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Color(0xff14279B)),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     AvatarImage(imagePath: user!.photoUrl),
                     const SizedBox(height: 60),
                     _getChild(),
@@ -88,7 +93,9 @@ class _ProfilePageState extends State<ProfilePage> {
         shape: BoxShape.circle,
         color: Colors.white,
       ),
+      margin: const EdgeInsets.only(right: 20, top: 10),
       child: PopupMenuButton(
+        elevation: 4,
         icon: Icon(Icons.edit, color: accentColor, size: 22),
         padding: const EdgeInsets.all(0),
         itemBuilder: (context) => [

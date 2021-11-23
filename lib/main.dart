@@ -20,22 +20,11 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: getAppTheme(),
       title: 'ULP Inmobiliaria',
-      // initialRoute: '/login',
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        drawer: const NavigationDrawerWidget(),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          iconTheme: const IconThemeData(color: Color(0xffed1b42)),
-        ),
-        body: ProfilePage(context),
-      ),
-      // initialRoute: '/login',
-      // routes: {
-      //   '/login': (_) => LoginPage(),
-      //   '/profile': (BuildContext context) => ProfilePage(context),
-      // },
+      initialRoute: '/login',
+      routes: {
+        '/login': (_) => LoginPage(),
+        '/profile': (BuildContext context) => ProfilePage(context),
+      },
     );
   }
 }

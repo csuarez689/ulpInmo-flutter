@@ -12,7 +12,16 @@ class NavigationDrawerWidget extends StatelessWidget {
     final user = Provider.of<AuthService>(context).authUser!;
     return Drawer(
       child: Container(
-        color: Theme.of(context).colorScheme.primaryVariant,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Theme.of(context).colorScheme.primary.withOpacity(.9),
+              Theme.of(context).colorScheme.primary.withOpacity(.6),
+            ],
+          ),
+        ),
         child: Column(
           children: [
             Expanded(
@@ -51,7 +60,7 @@ class _MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.primaryVariant,
+      color: Colors.transparent,
       child: ListTile(
         selected: selected,
         leading: Icon(icon, color: Colors.white),
@@ -70,7 +79,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.primaryVariant,
+      color: Colors.transparent,
       child: InkWell(
         onTap: () {},
         child: Row(
