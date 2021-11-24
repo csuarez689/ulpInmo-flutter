@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ulp_inmo/src/helpers/validators.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+  const CustomTextFormField({
     Key? key,
     this.inputController,
     this.validator,
@@ -16,16 +15,16 @@ class CustomTextFormField extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
-  TextEditingController? inputController;
-  Function? validator;
-  Function(String?)? onSaved;
-  bool obscure;
-  String hintText;
-  Widget? suffixIcon;
-  Widget? prefixIcon;
-  TextInputType? keyboardType;
-  String title;
-  String? initialValue;
+  final TextEditingController? inputController;
+  final Function? validator;
+  final Function(String?)? onSaved;
+  final bool obscure;
+  final String hintText;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final TextInputType? keyboardType;
+  final String title;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {

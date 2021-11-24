@@ -92,6 +92,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                   setState(() => loading = true);
                   final res = await authService.updateProfile(authService.authUser!, passwordController.text);
                   if (res != null)
+                    // ignore: curly_braces_in_flow_control_structures
                     showSnackbarError(context, res);
                   else {
                     Navigator.maybePop(context);

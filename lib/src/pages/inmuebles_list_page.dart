@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulp_inmo/src/models/inmueble_model.dart';
 import 'package:ulp_inmo/src/services/inmueble_services.dart';
+import 'package:ulp_inmo/src/widgets/custom_error_widget.dart';
 import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 
 class InmueblesListPage extends StatelessWidget {
@@ -42,16 +43,7 @@ class InmueblesListPage extends StatelessWidget {
             //TODO: Mostrar lista de inmuebles
             //TODO:NO HAY INMUEBLES
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error, size: 50, color: Theme.of(context).errorColor.withOpacity(.8)),
-              Center(
-                child: Text('Ocrrio un error inesperado!',
-                    textAlign: TextAlign.center, style: TextStyle(fontSize: 18, color: Theme.of(context).errorColor.withOpacity(.8))),
-              ),
-            ],
-          );
+          return const CustomErrorWidget();
         },
       ),
     );

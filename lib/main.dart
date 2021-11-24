@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ulp_inmo/src/app_config.dart';
-import 'package:ulp_inmo/src/pages/login_page.dart';
-import 'package:ulp_inmo/src/pages/profile_page.dart';
-import 'package:ulp_inmo/src/widgets/navigation_drawer_widget.dart';
 
 void main() {
   initApp(MyApp());
@@ -20,7 +17,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: getAppTheme(),
       title: 'ULP Inmobiliaria',
-      initialRoute: '/login',
+      initialRoute: getInitialRoute(),
       routes: getRoutes(),
     );
   }

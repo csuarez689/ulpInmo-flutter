@@ -17,7 +17,7 @@ class MainScaffold extends StatelessWidget {
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) => IconButton(
-            icon: Icon(Icons.menu, size: 30),
+            icon: const Icon(Icons.menu, size: 30),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
@@ -32,7 +32,7 @@ class MainScaffold extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          StainBg(),
+          const StainBg(),
           child,
         ],
       ),

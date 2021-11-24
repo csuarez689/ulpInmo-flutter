@@ -57,3 +57,4 @@ Map<String, Widget Function(BuildContext)> getRoutes() => {
       '/inmuebles/detail': (context) => InmueblesDetailPage(),
       '/inmuebles/add': (context) => InmueblesAddPage(),
     };
+String getInitialRoute() => '/inmuebles/add';
