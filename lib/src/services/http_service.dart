@@ -27,6 +27,7 @@ class HttpService {
 
   dynamic _decodeBody(String body) {
     try {
+      print(jsonDecode(body));
       return jsonDecode(body);
     } catch (_) {
       return body;

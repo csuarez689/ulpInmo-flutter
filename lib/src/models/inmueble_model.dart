@@ -10,13 +10,13 @@ class InmuebleModel {
   late final double superficie;
   late final double latitud;
   late final double longitud;
-  late final int? id;
+  late final int id;
 
   InmuebleModel.fromJson(Map<String, dynamic> json) {
     direccion = json['direccion'];
-    superficie = json['superficie'];
-    latitud = json['latitud'];
-    longitud = json['longitud'];
+    superficie = json['superficie'].toDouble();
+    latitud = json['latitud'].toDouble();
+    longitud = json['longitud'].toDouble();
     id = json['id'];
   }
 

@@ -22,7 +22,7 @@ class AuthService with ChangeNotifier {
       body: {'usuario': email, 'clave': password},
     );
     if (res.error != null) {
-      return res.statusCode == 400 ? 'Usuario o contraseña incorrectos' : 'Ha ocurrido un error!';
+      return res.statusCode == 400 ? 'Usuario o contraseña incorrectos' : 'Upss! Ha ocurrido un error!';
     }
     _http.addHeaders({'Authorization': 'Bearer ${res.data}'});
     return await getProfile();
@@ -34,7 +34,7 @@ class AuthService with ChangeNotifier {
       method: HttpMethod.get,
       parser: (json) => UserModel.fromJson(json),
     );
-    if (res.error != null) return 'Ha ocurrido un error!';
+    if (res.error != null) return 'Upss! Ha ocurrido un error!';
     authUser = res.data;
   }
 

@@ -8,21 +8,21 @@ class InmuebleService {
 
   Future<List<InmuebleModel>?> getAll() async {
     final res = await _http.request<List<InmuebleModel>>(
-      '/inmuebles/0',
+      '/inmuebles/',
       method: HttpMethod.get,
       parser: (json) => json.map<InmuebleModel>((item) => InmuebleModel.fromJson(item)).toList(),
     );
-    return res.error != null ? null : res.data;
+    return res.data;
   }
 
   Future<String?> update(InmuebleModel inmueble) async {
     final res = await _http.request('/inmuebles/${inmueble.id}', method: HttpMethod.put, body: inmueble.toJson());
-    if (res.error != null) return 'Ha ocurrido un error!';
+    if (res.error != null) return 'Upss! Ha ocurrido un error!';
   }
 
   Future<String?> delete(int id) async {
     final res = await _http.request('/inmuebles/$id', method: HttpMethod.delete);
-    if (res.error != null) return 'Ha ocurrido un error!';
+    if (res.error != null) return 'Upss! Ha ocurrido un error!';
   }
 
   Future<InmuebleModel?> create(InmuebleModel inmueble) async {

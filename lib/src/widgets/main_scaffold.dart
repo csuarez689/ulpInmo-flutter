@@ -15,6 +15,14 @@ class MainScaffold extends StatelessWidget {
       extendBodyBehindAppBar: true,
       drawer: NavigationDrawerWidget(navIndex),
       appBar: AppBar(
+        leading: Builder(
+          builder: (BuildContext context) => IconButton(
+            icon: Icon(Icons.menu, size: 30),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         centerTitle: true,
         title: title,
         backgroundColor: Colors.transparent,

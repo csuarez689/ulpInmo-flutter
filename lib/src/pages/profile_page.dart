@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       navActions: [_buildPopupMenu()],
       title: const Text(
         "Mis Datos",
-        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white),
       ),
       child: WillPopScope(
         onWillPop: () async {
