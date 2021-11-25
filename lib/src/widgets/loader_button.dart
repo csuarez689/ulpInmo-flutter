@@ -12,7 +12,7 @@ class LoaderButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           primary: const Color(0xff14279B),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
           textStyle: const TextStyle(fontSize: 18, color: Colors.white),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           minimumSize: const Size.fromHeight(20)),

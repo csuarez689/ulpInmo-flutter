@@ -14,15 +14,15 @@ import 'package:ulp_inmo/src/services/inmueble_services.dart';
 _configStatusBar() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.black,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.dark,
-    systemStatusBarContrastEnforced: true,
+    systemNavigationBarColor: Colors.white,
+    statusBarIconBrightness: Brightness.light,
+    statusBarBrightness: Brightness.light,
   )); //)  ));
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  SystemChrome.setEnabledSystemUIOverlays([]);
 }
 
 initApp(Widget app) async {
@@ -57,4 +57,4 @@ Map<String, Widget Function(BuildContext)> getRoutes() => {
       '/inmuebles/detail': (context) => InmueblesDetailPage(),
       '/inmuebles/add': (context) => InmueblesAddPage(),
     };
-String getInitialRoute() => '/inmuebles/add';
+String getInitialRoute() => '/login';

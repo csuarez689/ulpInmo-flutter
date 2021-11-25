@@ -7,6 +7,7 @@ import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_change_password.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_display_info.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_edit_info.dart';
+import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 
 class ProfilePage extends StatefulWidget {
   final BuildContext context;
@@ -34,12 +35,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return MainScaffold(
       navIndex: 1,
-      navActions: [_buildPopupMenu()],
+      navActions: [_buildPopupMenu(context)],
       title: const Text(
         "Mis Datos",
         style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white),
       ),
-      child: WillPopScope(
+      body: WillPopScope(
         onWillPop: () async {
           if (selectedIndex == 0) {
             return true;
@@ -49,12 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
           }
         },
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20, top: 30),
             child: Column(
               children: [
-                SafeArea(child: Container(margin: const EdgeInsets.only(top: 30), child: AvatarImage(imagePath: user!.photoUrl))),
-                const SizedBox(height: 60),
+                AvatarImage(imagePath: user!.photoUrl),
+                const SizedBox(height: 40),
                 AnimatedSwitcher(
                   child: _getChild(),
                   duration: const Duration(milliseconds: 300),
@@ -75,18 +77,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildPopupMenu() {
+  Widget _buildPopupMenu(BuildContext context) {
     return Container(
-      width: 35,
-      height: 35,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-      ),
-      margin: const EdgeInsets.only(right: 20, top: 10),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.secondary),
+      margin: const EdgeInsets.only(right: 10, bottom: 5),
       child: PopupMenuButton(
         elevation: 4,
-        icon: Icon(Icons.edit, color: accentColor, size: 22),
+        icon: Icon(Icons.more_vert_rounded, color: Colors.white, size: 28),
         padding: const EdgeInsets.all(0),
         itemBuilder: (context) => [
           PopupMenuItem<int>(value: 2, child: Text("Cambiar Contraseña", style: TextStyle(color: selectedIndex == 2 ? accentColor : Colors.black))),

@@ -51,14 +51,14 @@ class _UserEditInfoState extends State<UserEditInfo> {
             ),
             CustomTextFormField(
               title: "Nombre",
-              validator: (value) => validateBetween(value, 5, 30),
+              validator: (value) => validateBetween(value, min: 5, max: 30),
               hintText: 'Ingresa tu nombre',
               onSaved: (val) => user.nombre = val!,
               initialValue: user.nombre,
             ),
             CustomTextFormField(
               title: "Teléfono",
-              validator: (value) => validateBetween(value, 9, 15),
+              validator: (value) => validateBetween(value, min: 9, max: 15),
               hintText: 'Ingresa tu telefono',
               keyboardType: TextInputType.phone,
               onSaved: (val) => user.telefono = val!,

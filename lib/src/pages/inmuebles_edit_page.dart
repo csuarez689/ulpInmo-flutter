@@ -6,6 +6,6 @@ class InmueblesEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(navIndex: 2, child: Center(child: Text('Edit Inmuebles')));
+    return MainScaffold(navIndex: 2, body: Center(child: Text('Edit Inmuebles')));
   }
 }

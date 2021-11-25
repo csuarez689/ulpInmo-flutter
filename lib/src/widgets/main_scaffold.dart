@@ -3,24 +3,32 @@ import 'package:ulp_inmo/src/widgets/navigation_drawer_widget.dart';
 import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 
 class MainScaffold extends StatelessWidget {
-  final Widget child;
+  final Widget body;
   final Widget? title;
   final int navIndex;
   final List<Widget>? navActions;
-  const MainScaffold({Key? key, required this.child, this.navIndex = 0, this.navActions, this.title}) : super(key: key);
+  final Widget? floatingActionButton;
+  const MainScaffold({Key? key, required this.body, this.navIndex = 0, this.navActions, this.title, this.floatingActionButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       drawer: NavigationDrawerWidget(navIndex),
       appBar: AppBar(
         leading: Builder(
-          builder: (BuildContext context) => IconButton(
-            icon: const Icon(Icons.menu, size: 30),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
+          builder: (BuildContext context) => Container(
+            padding: const EdgeInsets.only(left: 10),
+            child: MaterialButton(
+              color: Theme.of(context).colorScheme.secondary,
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(0),
+              child: const Icon(Icons.menu, size: 28, color: Colors.white),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
           ),
         ),
         centerTitle: true,
@@ -30,12 +38,11 @@ class MainScaffold extends StatelessWidget {
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondary, size: 30),
         actions: navActions,
       ),
-      body: Stack(
-        children: <Widget>[
-          const StainBg(),
-          child,
-        ],
-      ),
+      body: Stack(children: [
+        const StainBg(),
+        SafeArea(child: body),
+      ]),
+      floatingActionButton: floatingActionButton,
     );
   }
 }

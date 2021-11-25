@@ -56,6 +56,7 @@ class HttpService {
     } catch (e, s) {
       print(e);
       print(s);
+      print(data);
       if (e is HttpError) {
         return HttpResult<T>(data: null, statusCode: statusCode!, error: e);
       }

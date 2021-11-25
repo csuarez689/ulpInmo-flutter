@@ -46,7 +46,7 @@ class AuthService with ChangeNotifier {
       parser: (json) => UserModel.fromJson(json),
     );
     if (res.error != null)
-      return 'Ha ocurrido un error!';
+      return 'Upss! Ha ocurrido un error!';
     else
       authUser = res.data;
   }

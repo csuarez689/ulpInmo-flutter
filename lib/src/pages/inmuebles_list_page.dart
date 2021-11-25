@@ -18,33 +18,110 @@ class InmueblesListPage extends StatelessWidget {
         "Mis Propiedades",
         style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white),
       ),
-      child: FutureBuilder<List<InmuebleModel>?>(
+      body: FutureBuilder<List<InmuebleModel>?>(
         future: inmuebleService.getAll(),
         builder: (context, AsyncSnapshot<List<InmuebleModel>?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-
-            // TODO: error
           }
           if (snapshot.hasData && snapshot.data != null) {
+            //TODO:NO HAY INMUEBLES
+
             return snapshot.data!.isEmpty
-                ? Center(
+                ? const Center(
                     child: Text(
                       "No tienes propiedades",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black),
                     ),
                   )
-                : Center(
-                    child: Text(
-                      "Hay propiedades",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black),
-                    ),
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (_, index) => _ListItem(item: snapshot.data![index]),
+                    itemExtent: 130,
                   );
             //TODO: Mostrar lista de inmuebles
-            //TODO:NO HAY INMUEBLES
           }
           return const CustomErrorWidget();
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/inmuebles/add');
+        },
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+}
+
+class _ListItem extends StatelessWidget {
+  final InmuebleModel item;
+
+  const _ListItem({Key? key, required this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        elevation: 5,
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/inmuebles/detail', arguments: item);
+          },
+          child: Row(
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: 150,
+                child: ClipRRect(
+                  child: Image.asset(item.imageUrl, fit: BoxFit.cover),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Direccion',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                      ),
+                      Flexible(
+                        child: Text(
+                          item.direccion,
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text('Superficie', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                      Text('${item.superficie} m2', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.grey)),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: double.infinity,
+                width: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                child: const Icon(
+                  Icons.chevron_left_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

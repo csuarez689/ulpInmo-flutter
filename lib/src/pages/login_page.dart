@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         height: height,
         child: Stack(
           children: <Widget>[
-            StainBg(),
+            const StainBg(),
             Center(
               child: Container(
                 margin: const EdgeInsets.only(bottom: 20, left: 40, right: 40),
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (res != null)
                               showSnackbarError(context, res);
                             else
-                              Navigator.pushReplacementNamed(context, '/profile');
+                              Navigator.pushReplacementNamed(context, '/inmuebles');
                             setState(() => loading = false);
                           }
                         },

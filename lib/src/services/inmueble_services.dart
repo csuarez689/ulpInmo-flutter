@@ -8,7 +8,7 @@ class InmuebleService {
 
   Future<List<InmuebleModel>?> getAll() async {
     final res = await _http.request<List<InmuebleModel>>(
-      '/inmuebles/',
+      '/inmuebles/0',
       method: HttpMethod.get,
       parser: (json) => json.map<InmuebleModel>((item) => InmuebleModel.fromJson(item)).toList(),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ulp_inmo/src/models/inmueble_model.dart';
 import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 
 class InmueblesDetailPage extends StatelessWidget {
@@ -6,6 +7,17 @@ class InmueblesDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(navIndex: 2, child: Center(child: Text('Detail Inmuebles')));
+    final inmueble = ModalRoute.of(context)!.settings.arguments as InmuebleModel;
+    return MainScaffold(
+      title: const Text(
+        "Mi Propiedad",
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white),
+      ),
+      body: Center(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[],
+      )),
+    );
   }
 }
