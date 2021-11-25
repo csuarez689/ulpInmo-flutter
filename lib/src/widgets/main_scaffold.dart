@@ -13,7 +13,6 @@ class MainScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       drawer: NavigationDrawerWidget(navIndex),
       appBar: AppBar(

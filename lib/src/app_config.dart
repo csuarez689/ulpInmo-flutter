@@ -11,23 +11,20 @@ import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/services/http_service.dart';
 import 'package:ulp_inmo/src/services/inmueble_services.dart';
 
-_configStatusBar() {
+Future<void> _configStatusBar() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.white,
-    statusBarIconBrightness: Brightness.light,
-    statusBarBrightness: Brightness.light,
-  )); //)  ));
-  SystemChrome.setPreferredOrientations([
+    systemNavigationBarColor: Colors.transparent,
+  ));
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SystemChrome.setEnabledSystemUIOverlays([]);
 }
 
-initApp(Widget app) async {
+Future<void> initApp(Widget app) async {
   WidgetsFlutterBinding.ensureInitialized();
-  _configStatusBar();
+  await _configStatusBar();
   final _httpService = HttpService('http://practicastuds.ulp.edu.ar/api', {'Content-Type': "application/json; charser=UTF-8"});
 
   runApp(MultiProvider(

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulp_inmo/src/models/inmueble_model.dart';
+
 import 'package:ulp_inmo/src/services/inmueble_services.dart';
+import 'package:ulp_inmo/src/models/inmueble_model.dart';
+
 import 'package:ulp_inmo/src/widgets/custom_error_widget.dart';
 import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 
-class InmueblesListPage extends StatelessWidget {
+class InmueblesListPage extends StatefulWidget {
   const InmueblesListPage({Key? key}) : super(key: key);
 
   @override
+  State<InmueblesListPage> createState() => _InmueblesListPageState();
+}
+
+class _InmueblesListPageState extends State<InmueblesListPage> {
+  @override
   Widget build(BuildContext context) {
     final inmuebleService = Provider.of<InmuebleService>(context);
-
+    setState(() {});
     return MainScaffold(
       navIndex: 2,
       title: const Text(
@@ -39,7 +46,7 @@ class InmueblesListPage extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (_, index) => _ListItem(item: snapshot.data![index]),
-                    itemExtent: 130,
+                    itemExtent: 150,
                   );
             //TODO: Mostrar lista de inmuebles
           }
@@ -48,7 +55,7 @@ class InmueblesListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/inmuebles/add');
+          Navigator.pushNamed(context, '/inmuebles/add').then((value) => value != null ? setState(() => {}) : null);
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -88,18 +95,22 @@ class _ListItem extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Direccion',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.home_rounded, color: Theme.of(context).colorScheme.secondary, size: 20),
+                          const Text('Dirección', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                        ],
                       ),
-                      Flexible(
-                        child: Text(
-                          item.direccion,
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey),
-                        ),
-                      ),
+                      Flexible(child: Text(item.direccion, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey))),
                       const SizedBox(height: 10),
-                      const Text('Superficie', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.architecture_outlined, color: Theme.of(context).colorScheme.secondary, size: 20),
+                          const Text('Superficie', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                       Text('${item.superficie} m2', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.grey)),
                     ],
                   ),

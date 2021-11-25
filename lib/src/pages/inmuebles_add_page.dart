@@ -85,7 +85,7 @@ class _InmueblesAddPageState extends State<InmueblesAddPage> {
                         if (res == null) {
                           showSnackbarError(context, 'Upss! Ha ocurrido un error!');
                         } else {
-                          Navigator.maybePop(context);
+                          Navigator.maybePop(context, true);
                           showSnackbar(context, 'Propiedad agregada');
                         }
                         setState(() => loading = false);

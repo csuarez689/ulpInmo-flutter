@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ulp_inmo/src/app_config.dart';
 
-void main() {
-  initApp(MyApp());
+void main() async {
+  await initApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
