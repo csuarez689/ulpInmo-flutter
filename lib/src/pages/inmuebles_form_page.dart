@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:ulp_inmo/src/helpers/snackbar_notifications.dart';
+
+import 'package:ulp_inmo/src/helpers/notifications.dart';
 import 'package:ulp_inmo/src/helpers/validators.dart';
+
 import 'package:ulp_inmo/src/models/inmueble_model.dart';
 import 'package:ulp_inmo/src/services/inmueble_services.dart';
+
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 import 'package:ulp_inmo/src/widgets/loader_button.dart';
 import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 
-class InmueblesAddPage extends StatefulWidget {
-  const InmueblesAddPage({Key? key}) : super(key: key);
+class InmueblesFormPage extends StatefulWidget {
+  final BuildContext parentContext;
+  const InmueblesFormPage(this.parentContext, {Key? key}) : super(key: key);
 
   @override
-  State<InmueblesAddPage> createState() => _InmueblesAddPageState();
+  State<InmueblesFormPage> createState() => _InmueblesFormPageState();
 }
 
-class _InmueblesAddPageState extends State<InmueblesAddPage> {
-  bool loading = false;
+class _InmueblesFormPageState extends State<InmueblesFormPage> {
   final formKey = GlobalKey<FormState>();
-  InmuebleModel inmueble = InmuebleModel(superficie: 0, direccion: '', latitud: 0.0, longitud: 0.0);
+  late InmuebleModel inmueble;
+  late bool isEditing;
+  bool loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final route = ModalRoute.of(widget.parentContext);
+    if (route != null && route.settings.arguments != null) {
+      inmueble = route.settings.arguments as InmuebleModel;
+      isEditing = true;
+    } else {
+      inmueble = InmuebleModel(direccion: '', superficie: 0, latitud: 0.0, longitud: 0.0);
+      isEditing = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final inmuebleService = Provider.of<InmuebleService>(context);
 
     return MainScaffold(
-      title: const Text(
-        "Nueva Propiedad",
-        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white),
+      title: Text(
+        isEditing ? "Editar Propiedad" : "Nueva Propiedad",
+        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.white),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -81,12 +99,12 @@ class _InmueblesAddPageState extends State<InmueblesAddPage> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         setState(() => loading = true);
-                        final res = await inmuebleService.create(inmueble);
+                        final res = isEditing ? await inmuebleService.update(inmueble) : await inmuebleService.create(inmueble);
                         if (res == null) {
-                          showSnackbarError(context, 'Upss! Ha ocurrido un error!');
+                          showSnackbarError(context, 'No se ha podido realizar la operación');
                         } else {
                           Navigator.maybePop(context, true);
-                          showSnackbar(context, 'Propiedad agregada');
+                          showSnackbar(context, res);
                         }
                         setState(() => loading = false);
                       }

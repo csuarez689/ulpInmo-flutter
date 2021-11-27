@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulp_inmo/src/helpers/validators.dart';
+
 import 'package:ulp_inmo/src/services/auth_service.dart';
+
+import 'package:ulp_inmo/src/helpers/validators.dart';
+import 'package:ulp_inmo/src/helpers/notifications.dart';
+
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 import 'package:ulp_inmo/src/widgets/loader_button.dart';
-import 'package:ulp_inmo/src/helpers/snackbar_notifications.dart';
 import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

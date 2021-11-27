@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:latlong2/latlong.dart';
+
 import 'package:ulp_inmo/src/models/inmueble_model.dart';
 import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:flutter_map/plugin_api.dart';
 
 class InmueblesDetailPage extends StatelessWidget {
   const InmueblesDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    const itemHeight = 80;
+    final itemWidth = MediaQuery.of(context).size.width * 0.4;
     final inmueble = ModalRoute.of(context)!.settings.arguments as InmuebleModel;
+
     return MainScaffold(
       title: const Text(
         "Mi Propiedad",
@@ -25,9 +29,19 @@ class InmueblesDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _CardImage(inmueble.imageUrl),
-              const SizedBox(height: 20),
-              ..._buildDescription(context, inmueble),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
+              GridView.count(
+                childAspectRatio: (itemWidth / itemHeight),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                children: [
+                  _TileTextIcon(icon: Icons.home_rounded, title: 'Dirección', value: inmueble.direccion),
+                  _TileTextIcon(icon: Icons.architecture_outlined, title: 'Superficie', value: '${inmueble.superficie} m2'),
+                  _TileTextIcon(icon: Icons.location_on, title: 'Latitud', value: inmueble.latitud.toString()),
+                  _TileTextIcon(icon: Icons.location_on, title: 'Longitud', value: inmueble.longitud.toString()),
+                ],
+              ),
               _CardMap(inmueble.latitud, inmueble.longitud),
             ],
           ),
@@ -35,44 +49,6 @@ class InmueblesDetailPage extends StatelessWidget {
       ),
     );
   }
-
-  List<Widget> _buildDescription(BuildContext context, InmuebleModel inmueble) => [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.home_rounded, color: Theme.of(context).colorScheme.secondary, size: 22),
-            const Text('Dirección', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-          ],
-        ),
-        Text(inmueble.direccion, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey)),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.architecture_outlined, color: Theme.of(context).colorScheme.secondary, size: 22),
-            const Text('Superficie', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-          ],
-        ),
-        Text('${inmueble.superficie} m2', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey)),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.location_on, color: Theme.of(context).colorScheme.secondary, size: 22),
-            const Text('Latitud', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-          ],
-        ),
-        Text(inmueble.latitud.toString(), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey)),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.location_on, color: Theme.of(context).colorScheme.secondary, size: 22),
-            const Text('Longitud', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-          ],
-        ),
-        Text(inmueble.longitud.toString(), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey)),
-      ];
 }
 
 class _CardImage extends StatelessWidget {
@@ -95,6 +71,34 @@ class _CardImage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _TileTextIcon extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+
+  const _TileTextIcon({Key? key, required this.title, required this.value, required this.icon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Theme.of(context).colorScheme.secondary, size: 22),
+            Text(title, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22),
+          child: Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey)),
+        ),
+      ],
     );
   }
 }

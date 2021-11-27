@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/avatar_image.dart';
@@ -7,11 +8,10 @@ import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_change_password.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_display_info.dart';
 import 'package:ulp_inmo/src/widgets/profile/user_edit_info.dart';
-import 'package:ulp_inmo/src/widgets/stain_bg.dart';
 
 class ProfilePage extends StatefulWidget {
-  final BuildContext context;
-  const ProfilePage(this.context, {Key? key}) : super(key: key);
+  final BuildContext parentContext;
+  const ProfilePage(this.parentContext, {Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     selectedIndex = 0;
-    user = Provider.of<AuthService>(widget.context).authUser!;
+    user = Provider.of<AuthService>(widget.parentContext).authUser!;
     super.initState();
   }
 

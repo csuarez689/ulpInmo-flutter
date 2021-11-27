@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ulp_inmo/main.dart';
 import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
 import 'package:ulp_inmo/src/widgets/avatar_image.dart';
@@ -10,7 +11,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthService>(context).authUser!;
+    final authService = Provider.of<AuthService>(context);
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
@@ -31,7 +32,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 children: <Widget>[
                   const SizedBox(height: 50),
-                  _Header(user),
+                  const _Header(),
                   const Divider(color: Colors.white70, height: 50),
                   _MenuItem(
                       text: 'Mis Datos',
@@ -51,7 +52,15 @@ class NavigationDrawerWidget extends StatelessWidget {
               ),
             ),
             const Divider(color: Colors.white70),
-            _MenuItem(text: 'Cerrar Sesión', icon: Icons.exit_to_app, onTap: () {}),
+            _MenuItem(
+              text: 'Cerrar Sesión',
+              icon: Icons.exit_to_app,
+              onTap: () async {
+                Navigator.pop(context);
+                await Future.delayed(Duration(milliseconds: 300));
+                authService.logout();
+              },
+            ),
           ],
         ),
       ),
@@ -91,11 +100,12 @@ class _MenuItem extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  final UserModel user;
-  const _Header(this.user);
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AuthService>(context).authUser;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -103,13 +113,15 @@ class _Header extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            AvatarImage(imagePath: user.photoUrl, radius: 35),
+            AvatarImage(imagePath: user?.photoUrl ?? '', radius: 35),
             SizedBox(
               width: 180,
               child: Column(
                 children: [
-                  Text(user.nombre, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-                  Text(user.email, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.white54)),
+                  Text(user?.nombre ?? '',
+                      overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text(user?.email ?? '',
+                      overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.white54)),
                 ],
               ),
             )

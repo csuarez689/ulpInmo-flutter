@@ -50,4 +50,9 @@ class AuthService with ChangeNotifier {
     else
       authUser = res.data;
   }
+
+  void logout() async {
+    _http.addHeaders({'Authorization': ''});
+    this.authUser = null;
+  }
 }

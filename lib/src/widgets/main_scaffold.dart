@@ -39,7 +39,9 @@ class MainScaffold extends StatelessWidget {
       ),
       body: Stack(children: [
         const StainBg(),
-        SafeArea(child: body),
+        SafeArea(
+          child: body,
+        ),
       ]),
       floatingActionButton: floatingActionButton,
     );
