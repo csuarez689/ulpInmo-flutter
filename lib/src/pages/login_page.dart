@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: <Widget>[
                             CustomTextFormField(
-                              initialValue: 'csuarez689@gmail.com',
+                              textInputAction: TextInputAction.next,
+                              initialValue: '',
                               keyboardType: TextInputType.emailAddress,
                               title: "Correo Electrónico",
                               validator: validateEmail,
@@ -75,7 +76,8 @@ class _LoginPageState extends State<LoginPage> {
                               onSaved: (val) => email = val!,
                             ),
                             CustomTextFormField(
-                              initialValue: '12345',
+                              textInputAction: TextInputAction.done,
+                              initialValue: '',
                               title: "Contraseña",
                               validator: validateBetween,
                               obscure: obscurePassword,

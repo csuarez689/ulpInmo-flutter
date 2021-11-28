@@ -14,6 +14,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onSaved,
     this.initialValue,
     this.inputFormatters,
+    this.textInputAction,
     required this.title,
   }) : super(key: key);
 
@@ -28,6 +29,8 @@ class CustomTextFormField extends StatelessWidget {
   final String title;
   final String? initialValue;
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputAction? textInputAction;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,6 +41,7 @@ class CustomTextFormField extends StatelessWidget {
           Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
           const SizedBox(height: 10),
           TextFormField(
+            textInputAction: textInputAction,
             inputFormatters: inputFormatters,
             initialValue: initialValue,
             onSaved: onSaved,

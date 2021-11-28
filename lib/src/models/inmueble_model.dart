@@ -3,8 +3,8 @@ import 'dart:math';
 class InmuebleModel {
   String direccion;
   int superficie;
-  double latitud;
-  double longitud;
+  double? latitud;
+  double? longitud;
   int propietarioId;
   int grupoId;
   int id;
@@ -14,8 +14,8 @@ class InmuebleModel {
   InmuebleModel({
     required this.direccion,
     required this.superficie,
-    required this.latitud,
-    required this.longitud,
+    this.latitud,
+    this.longitud,
     this.propietarioId = 0,
     this.grupoId = 0,
     this.id = 0,

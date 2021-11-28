@@ -18,10 +18,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).colorScheme.primary.withOpacity(.9),
-              Theme.of(context).colorScheme.primary.withOpacity(.6),
-            ],
+            colors: [Theme.of(context).colorScheme.primary.withOpacity(.9), Theme.of(context).colorScheme.primary.withOpacity(.6)],
           ),
         ),
         child: Column(
@@ -45,8 +42,6 @@ class NavigationDrawerWidget extends StatelessWidget {
                       icon: Icons.business_rounded,
                       isSelected: selectedIndex == 2,
                       onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/inmuebles', (Route<dynamic> route) => false)),
-                  const SizedBox(height: 16),
-                  _MenuItem(text: 'Contacto', icon: Icons.call_rounded, isSelected: selectedIndex == 3, onTap: () {}),
                   const SizedBox(height: 16),
                 ],
               ),

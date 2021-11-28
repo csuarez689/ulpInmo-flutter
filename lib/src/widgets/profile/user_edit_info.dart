@@ -53,6 +53,7 @@ class _UserEditInfoState extends State<UserEditInfo> {
               ),
             ),
             CustomTextFormField(
+              textInputAction: TextInputAction.next,
               title: "Nombre",
               validator: (value) => validateBetween(value, min: 5, max: 30),
               hintText: 'Ingresa tu nombre',
@@ -60,6 +61,7 @@ class _UserEditInfoState extends State<UserEditInfo> {
               initialValue: user.nombre,
             ),
             CustomTextFormField(
+              textInputAction: TextInputAction.next,
               title: "Teléfono",
               validator: (value) => validateBetween(value, min: 9, max: 15),
               hintText: 'Ingresa tu telefono',
@@ -68,6 +70,7 @@ class _UserEditInfoState extends State<UserEditInfo> {
               initialValue: user.telefono,
             ),
             CustomTextFormField(
+              textInputAction: TextInputAction.done,
               title: "Correo Electrónico",
               validator: validateEmail,
               hintText: 'Ingresa tu correo electrónico',

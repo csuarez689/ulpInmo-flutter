@@ -59,6 +59,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
               ),
             ),
             CustomTextFormField(
+              textInputAction: TextInputAction.next,
               title: "Nueva contraseña",
               inputController: passwordController,
               validator: validateBetween,
@@ -71,8 +72,9 @@ class _UserChangePasswordState extends State<UserChangePassword> {
               ),
             ),
             CustomTextFormField(
+              textInputAction: TextInputAction.done,
               title: "Confirma tu nueva contraseña",
-              validator: (value) => validateSame(value, passwordController.text) ? null : "Las contraseñas no coinciden",
+              validator: (value) => validateSame(value, passwordController.text) ? null : "Las contraseñas deben coincidir",
               obscure: obscurePasswordConfimation,
               hintText: 'Confirma tu nueva contraseña',
               onSaved: (val) => passwordConfimation = val!,

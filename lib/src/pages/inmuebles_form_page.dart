@@ -11,6 +11,7 @@ import 'package:ulp_inmo/src/services/inmueble_services.dart';
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 import 'package:ulp_inmo/src/widgets/loader_button.dart';
 import 'package:ulp_inmo/src/pages/main_scaffold.dart';
+import 'package:ulp_inmo/src/widgets/single_marker_map.dart';
 
 class InmueblesFormPage extends StatefulWidget {
   final BuildContext parentContext;
@@ -25,6 +26,7 @@ class _InmueblesFormPageState extends State<InmueblesFormPage> {
   late InmuebleModel inmueble;
   late bool isEditing;
   bool loading = false;
+  bool? validLocation;
 
   @override
   void initState() {
@@ -34,7 +36,7 @@ class _InmueblesFormPageState extends State<InmueblesFormPage> {
       inmueble = route.settings.arguments as InmuebleModel;
       isEditing = true;
     } else {
-      inmueble = InmuebleModel(direccion: '', superficie: 0, latitud: 0, longitud: 0);
+      inmueble = InmuebleModel(direccion: '', superficie: 0);
       isEditing = false;
     }
   }
@@ -51,15 +53,32 @@ class _InmueblesFormPageState extends State<InmueblesFormPage> {
       body: Center(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Container(
-            margin: const EdgeInsets.only(left: 20, right: 20),
-            alignment: Alignment.center,
-            child: Form(
-              key: formKey,
+          child: Form(
+            key: formKey,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  const Text("Seleccione la ubicación", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    height: 450,
+                    width: MediaQuery.of(context).size.width,
+                    child: SingleMarkerMap(
+                      lat: inmueble.latitud,
+                      lng: inmueble.longitud,
+                      onMapTap: (lat, lng) => setState(() {
+                        inmueble.latitud = lat;
+                        inmueble.longitud = lng;
+                      }),
+                    ),
+                  ),
+                  if (validLocation != null && !validLocation!)
+                    Text('Debe seleccionar la ubicación de la propiedad', style: TextStyle(color: Theme.of(context).errorColor, fontSize: 12)),
                   CustomTextFormField(
+                    textInputAction: TextInputAction.next,
                     title: "Dirección",
                     validator: (value) => validateBetween(value, min: 6, max: 120),
                     hintText: 'Ingresa la dirección de la propiedad',
@@ -67,6 +86,7 @@ class _InmueblesFormPageState extends State<InmueblesFormPage> {
                     initialValue: inmueble.direccion,
                   ),
                   CustomTextFormField(
+                    textInputAction: TextInputAction.done,
                     inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*'))],
                     title: "Superficie (m2)",
                     validator: (value) => validateNumberBetween(int.tryParse(value) ?? 0, min: 5, max: 100000),
@@ -75,27 +95,15 @@ class _InmueblesFormPageState extends State<InmueblesFormPage> {
                     onSaved: (val) => inmueble.superficie = int.tryParse(val!) ?? 0,
                     initialValue: inmueble.superficie.toString(),
                   ),
-                  CustomTextFormField(
-                    title: "Latitud",
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d{0,10}'))],
-                    hintText: 'Ingresa la latitud de la propiedad',
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
-                    onSaved: (val) => inmueble.latitud = double.tryParse(val!) ?? 0.0,
-                    initialValue: inmueble.latitud.toString(),
-                  ),
-                  CustomTextFormField(
-                    title: "Longitud",
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d{0,10}'))],
-                    hintText: 'Ingresa la logitud de la propiedad',
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
-                    onSaved: (val) => inmueble.longitud = double.tryParse(val!) ?? 0.0,
-                    initialValue: inmueble.longitud.toString(),
-                  ),
                   const SizedBox(height: 20),
                   LoaderButton(
                     loading: loading,
                     child: const Text('Guardar'),
                     onPressed: () async {
+                      if (inmueble.latitud == null || inmueble.longitud == null) {
+                        setState(() => validLocation = false);
+                        return;
+                      }
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         setState(() => loading = true);

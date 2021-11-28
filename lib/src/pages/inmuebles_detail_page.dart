@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map/plugin_api.dart';
-import 'package:latlong2/latlong.dart';
 
 import 'package:ulp_inmo/src/models/inmueble_model.dart';
 import 'package:ulp_inmo/src/pages/main_scaffold.dart';
+import 'package:ulp_inmo/src/widgets/single_marker_map.dart';
 
 class InmueblesDetailPage extends StatelessWidget {
   const InmueblesDetailPage({Key? key}) : super(key: key);
@@ -26,7 +24,15 @@ class InmueblesDetailPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _CardMap(inmueble.latitud, inmueble.longitud),
+              SizedBox(
+                height: 400,
+                width: double.infinity,
+                child: SingleMarkerMap(
+                  lat: inmueble.latitud,
+                  lng: inmueble.longitud,
+                  onMapTap: (_, __) {},
+                ),
+              ),
               _CardImage(inmueble.id, inmueble.imageUrl),
               _TileTextIcon(icon: Icons.home_rounded, title: 'Dirección', value: inmueble.direccion),
               _TileTextIcon(icon: Icons.architecture_outlined, title: 'Superficie', value: '${inmueble.superficie} m2'),
@@ -95,80 +101,6 @@ class _TileTextIcon extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _CardMap extends StatefulWidget {
-  final double lat;
-  final double lng;
-  late final LatLng location;
-
-  _CardMap(this.lat, this.lng) {
-    location = LatLng(lat, lng);
-  }
-
-  @override
-  State<_CardMap> createState() => _CardMapState();
-}
-
-class _CardMapState extends State<_CardMap> {
-  late final MapController mapController;
-
-  @override
-  void initState() {
-    mapController = MapController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 350,
-      width: double.infinity,
-      child: ClipRRect(
-        child: FlutterMap(
-          mapController: mapController,
-          options: MapOptions(
-            center: widget.location,
-            zoom: widget.lat == 0 && widget.lng == 0 ? 2 : 13,
-            maxZoom: 15,
-            minZoom: 2,
-          ),
-          layers: [
-            TileLayerOptions(
-              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-              subdomains: ['a', 'b', 'c'],
-            ),
-            MarkerLayerOptions(
-              markers: [
-                Marker(
-                  rotate: true,
-                  width: 80.0,
-                  height: 80.0,
-                  point: widget.location,
-                  builder: (ctx) => Icon(Icons.location_pin, color: Theme.of(context).colorScheme.secondary, size: 40),
-                ),
-              ],
-            ),
-          ],
-          nonRotatedChildren: <Widget>[
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                  mini: true,
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  child: const Icon(Icons.my_location_rounded, size: 24, color: Colors.white),
-                  onPressed: () => mapController.move(widget.location, 20)),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

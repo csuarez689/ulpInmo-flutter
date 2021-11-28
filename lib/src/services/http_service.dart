@@ -27,7 +27,6 @@ class HttpService {
 
   dynamic _decodeBody(String body) {
     try {
-      print(jsonDecode(body));
       return jsonDecode(body);
     } catch (_) {
       return body;
@@ -54,9 +53,6 @@ class HttpService {
       }
       return HttpResult<T>(data: parser == null ? data : parser(data), statusCode: statusCode, error: null);
     } catch (e, s) {
-      print(e);
-      print(s);
-      print(data);
       if (e is HttpError) {
         return HttpResult<T>(data: null, statusCode: statusCode!, error: e);
       }
