@@ -149,8 +149,11 @@ class _ListItem extends StatelessWidget {
                       height: double.infinity,
                       width: 150,
                       child: ClipRRect(
-                        child: Image.asset(item.imageUrl, fit: BoxFit.cover),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                        child: Hero(
+                          tag: item.id,
+                          child: Image.asset(item.imageUrl, fit: BoxFit.cover),
+                        ),
                       ),
                     ),
                     Expanded(

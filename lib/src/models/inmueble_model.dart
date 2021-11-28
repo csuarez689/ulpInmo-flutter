@@ -9,6 +9,7 @@ class InmuebleModel {
   int grupoId;
   int id;
   dynamic propietario;
+  late String imageUrl;
 
   InmuebleModel({
     required this.direccion,
@@ -18,7 +19,9 @@ class InmuebleModel {
     this.propietarioId = 0,
     this.grupoId = 0,
     this.id = 0,
-  });
+  }) {
+    imageUrl = _randomImage;
+  }
 
   factory InmuebleModel.fromJson(Map<String, dynamic> json) {
     return InmuebleModel(
@@ -41,8 +44,9 @@ class InmuebleModel {
     data['propietarioId'] = propietarioId;
     data['grupoId'] = grupoId;
     data['id'] = id;
+    imageUrl = _randomImage;
     return data;
   }
 
-  String get imageUrl => 'assets/imgs/house_${Random().nextInt(3) + 1}.jpg';
+  String get _randomImage => 'assets/imgs/house_${Random().nextInt(3) + 1}.jpg';
 }

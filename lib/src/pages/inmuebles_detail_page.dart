@@ -27,7 +27,7 @@ class InmueblesDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _CardMap(inmueble.latitud, inmueble.longitud),
-              _CardImage(inmueble.imageUrl),
+              _CardImage(inmueble.id, inmueble.imageUrl),
               _TileTextIcon(icon: Icons.home_rounded, title: 'Dirección', value: inmueble.direccion),
               _TileTextIcon(icon: Icons.architecture_outlined, title: 'Superficie', value: '${inmueble.superficie} m2'),
               _TileTextIcon(icon: Icons.location_on, title: 'Latitud', value: inmueble.latitud.toString()),
@@ -42,7 +42,8 @@ class InmueblesDetailPage extends StatelessWidget {
 
 class _CardImage extends StatelessWidget {
   final String imageUrl;
-  const _CardImage(this.imageUrl);
+  final int id;
+  const _CardImage(this.id, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,13 @@ class _CardImage extends StatelessWidget {
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           elevation: 5,
-          child: ClipRRect(child: Image.asset(imageUrl, fit: BoxFit.cover), borderRadius: BorderRadius.circular(10)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Hero(
+              tag: id,
+              child: Image.asset(imageUrl, fit: BoxFit.cover),
+            ),
+          ),
         ),
       ),
     );
@@ -145,7 +152,7 @@ class _CardMapState extends State<_CardMap> {
                   width: 80.0,
                   height: 80.0,
                   point: widget.location,
-                  builder: (ctx) => const Icon(Icons.location_on, color: Colors.red, size: 40),
+                  builder: (ctx) => Icon(Icons.location_pin, color: Theme.of(context).colorScheme.secondary, size: 40),
                 ),
               ],
             ),
