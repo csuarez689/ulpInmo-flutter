@@ -21,7 +21,6 @@ class InmuebleModel {
   });
 
   factory InmuebleModel.fromJson(Map<String, dynamic> json) {
-    print(json['Direccion']);
     return InmuebleModel(
       direccion: json['direccion'],
       superficie: json['superficie'].toInt(),

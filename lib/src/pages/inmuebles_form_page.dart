@@ -10,7 +10,7 @@ import 'package:ulp_inmo/src/services/inmueble_services.dart';
 
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 import 'package:ulp_inmo/src/widgets/loader_button.dart';
-import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
+import 'package:ulp_inmo/src/pages/main_scaffold.dart';
 
 class InmueblesFormPage extends StatefulWidget {
   final BuildContext parentContext;
@@ -34,7 +34,7 @@ class _InmueblesFormPageState extends State<InmueblesFormPage> {
       inmueble = route.settings.arguments as InmuebleModel;
       isEditing = true;
     } else {
-      inmueble = InmuebleModel(direccion: '', superficie: 0, latitud: 0.0, longitud: 0.0);
+      inmueble = InmuebleModel(direccion: '', superficie: 0, latitud: 0, longitud: 0);
       isEditing = false;
     }
   }

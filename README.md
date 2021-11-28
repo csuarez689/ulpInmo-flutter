@@ -1,3 +1,3 @@
 # ULPInmo
 
-Flutter(^2.5) proyect for Optinal 1 - Software Developer, Universidad de la Punta.
+Flutter(^2.5) Opcional 1 - Desarrollador de Software, Universidad de la Punta.

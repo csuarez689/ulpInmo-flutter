@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulp_inmo/main.dart';
-import 'package:ulp_inmo/src/models/user_model.dart';
+
 import 'package:ulp_inmo/src/services/auth_service.dart';
+
 import 'package:ulp_inmo/src/widgets/avatar_image.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -56,8 +56,8 @@ class NavigationDrawerWidget extends StatelessWidget {
               text: 'Cerrar Sesión',
               icon: Icons.exit_to_app,
               onTap: () async {
-                Navigator.pop(context);
-                await Future.delayed(Duration(milliseconds: 300));
+                // Navigator.pop(context);
+                // await Future.delayed(Duration(milliseconds: 300));
                 authService.logout();
               },
             ),

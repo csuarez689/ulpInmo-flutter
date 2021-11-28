@@ -102,10 +102,11 @@ class _LoginPageState extends State<LoginPage> {
                             formKey.currentState!.save();
                             setState(() => loading = true);
                             final res = await authService.login(email, password);
-                            if (res != null)
+                            if (res != null) {
                               showSnackbarError(context, res);
-                            else
+                            } else {
                               Navigator.pushReplacementNamed(context, '/inmuebles');
+                            }
                             setState(() => loading = false);
                           }
                         },

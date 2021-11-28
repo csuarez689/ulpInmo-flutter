@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulp_inmo/src/helpers/validators.dart';
+
 import 'package:ulp_inmo/src/models/user_model.dart';
 import 'package:ulp_inmo/src/services/auth_service.dart';
+
+import 'package:ulp_inmo/src/helpers/validators.dart';
+import 'package:ulp_inmo/src/helpers/notifications.dart';
+
 import 'package:ulp_inmo/src/widgets/custom_text_form_field.dart';
 import 'package:ulp_inmo/src/widgets/loader_button.dart';
-import 'package:ulp_inmo/src/helpers/notifications.dart';
 
 class UserEditInfo extends StatefulWidget {
   final Color color;

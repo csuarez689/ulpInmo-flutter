@@ -9,7 +9,7 @@ import 'package:ulp_inmo/src/services/inmueble_services.dart';
 import 'package:ulp_inmo/src/models/inmueble_model.dart';
 
 import 'package:ulp_inmo/src/widgets/custom_error_widget.dart';
-import 'package:ulp_inmo/src/widgets/main_scaffold.dart';
+import 'package:ulp_inmo/src/pages/main_scaffold.dart';
 
 class InmueblesListPage extends StatefulWidget {
   const InmueblesListPage({Key? key}) : super(key: key);

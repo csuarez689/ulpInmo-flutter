@@ -1,5 +1,5 @@
-import 'package:ulp_inmo/src/models/inmueble_model.dart';
 import 'package:ulp_inmo/src/services/http_service.dart';
+import 'package:ulp_inmo/src/models/inmueble_model.dart';
 
 class InmuebleService {
   final HttpService _http;
