@@ -56,9 +56,10 @@ class _InmueblesListPageState extends State<InmueblesListPage> {
                     ),
                   )
                 : ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 2),
                     physics: const BouncingScrollPhysics(),
                     itemCount: snapshot.data!.length,
+                    shrinkWrap: true,
                     itemBuilder: (_, index) => _ListItem(
                       item: snapshot.data![index],
                       onTap: () => Navigator.pushNamed(context, '/inmuebles/detail', arguments: snapshot.data![index]),
@@ -147,7 +148,7 @@ class _ListItem extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: double.infinity,
-                      width: 150,
+                      width: 160,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
                         child: Hero(
@@ -159,7 +160,7 @@ class _ListItem extends StatelessWidget {
                     Expanded(
                       child: Container(
                         color: Colors.white,
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -170,7 +171,13 @@ class _ListItem extends StatelessWidget {
                                 const Text('Dirección', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
                               ],
                             ),
-                            Flexible(child: Text(item.direccion, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey))),
+                            Flexible(
+                                child: Text(
+                              item.direccion,
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            )),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -179,14 +186,19 @@ class _ListItem extends StatelessWidget {
                                 const Text('Superficie', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
                               ],
                             ),
-                            Text('${item.superficie} m2', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.grey)),
+                            Text(
+                              '${item.superficie} m2',
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ],
                         ),
                       ),
                     ),
                     Container(
                       height: double.infinity,
-                      width: 30,
+                      width: 20,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
@@ -195,7 +207,7 @@ class _ListItem extends StatelessWidget {
                       child: const Icon(
                         Icons.chevron_left_rounded,
                         color: Colors.white,
-                        size: 30,
+                        size: 20,
                       ),
                     ),
                   ],
